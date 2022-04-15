@@ -23,6 +23,8 @@ int p;
 int step;
 int last_step;
 
+
+
 void* thread_sorter(void* arg)
 {
   pthread_mutex_lock(&mutex);
