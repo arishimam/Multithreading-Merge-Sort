@@ -87,20 +87,21 @@ void* thread_merger(void* arg)
     end2 = n;
   }
 
-  vector<int> temp_arr;
+  vector<int> temp_arr(end2);
 
-  //merge(arr.begin() + beg1, arr.begin() + end1, arr.begin() + beg2, arr.begin() + end2, temp_arr);
-
-  // for(int i = 0; i < end2*2; i++)
-  // {
-  //  cout << temp_arr[i] << " ";
-  // }
+  merge(arr.begin() + beg1, arr.begin() + end1, arr.begin() + beg2, arr.begin() + end2, temp_arr.begin());
 
   pthread_mutex_lock(&mutex2);
 
   cout << "Thread " << index2 + 1 << endl;
-  cout << "beg1 = " << beg1 << " end1 = " << end1;
-  cout << " beg2 = " << beg2 << " end2 = " << end2 << endl;
+  // cout << "beg1 = " << beg1 << " end1 = " << end1;
+  // cout << " beg2 = " << beg2 << " end2 = " << end2 << endl;
+
+  for(int i = 0; i < temp_arr.size(); i++)
+  {
+   cout << temp_arr[i] << " ";
+  }
+  cout << endl;
 
   pthread_mutex_unlock(&mutex2);
 
