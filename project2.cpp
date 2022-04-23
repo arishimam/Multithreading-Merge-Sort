@@ -53,7 +53,7 @@ void* thread_sorter(void* arg)
   //cout << "beg = " << beg << " end = " << end << endl;
 
   cout << "Sorted Values: ";
-  for (int i = beg; i <= end; i++)
+  for (int i = beg; i < end; i++)
   {
     cout << arr[i] << " ";
   }
@@ -163,8 +163,8 @@ int main(int argc, char* argv[])
   //Goal 4
   //Merging
   //int num_threads = 0;
-  if(p % 2 == 0) {num_threads = p/2;}
-  else {num_threads = p/2 + 1;}
+  num_threads = p/2;
+
 
   pthread_t threads2[num_threads];
 
