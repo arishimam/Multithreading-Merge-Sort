@@ -62,6 +62,8 @@ void* thread_sorter(void* arg)
   pthread_mutex_unlock(&mutex);
 
   free(arg);
+
+  return NULL;
 }
 
 void* thread_merger(void* arg)
@@ -97,7 +99,7 @@ void* thread_merger(void* arg)
   // cout << "beg1 = " << beg1 << " end1 = " << end1;
   // cout << " beg2 = " << beg2 << " end2 = " << end2 << endl;
 
-  for(int i = 0; i < temp_arr.size(); i++)
+  for(int i = 0; i < end2; i++)
   {
    cout << temp_arr[i] << " ";
   }
@@ -105,6 +107,7 @@ void* thread_merger(void* arg)
 
   pthread_mutex_unlock(&mutex2);
 
+  return NULL;
 }
 
 //Goal 1
