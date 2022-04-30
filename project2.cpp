@@ -12,7 +12,10 @@ using namespace std;
 // number of segments to divide into = p
 //populate dynamic array "arr" with random values
 
+//array where values are generated into and sorted in
 vector<int> arr;
+
+//temporary array used for merging and then cleared at the end
 vector<int> temp_arr;
 
 pthread_mutex_t mutex;
@@ -50,14 +53,15 @@ void* thread_sorter(void* arg)
   pthread_mutex_lock(&mutex);
 
   cout << "Thread " << index + 1 << endl;
-  //cout << "beg = " << beg << " end = " << end << endl;
+
+  cout << "Sorted " << (end - beg) << " numbers." << endl;
 
   cout << "Sorted Values: ";
   for (int i = beg; i < end; i++)
   {
     cout << arr[i] << " ";
   }
-  cout << endl;
+  cout << endl << endl;
 
   pthread_mutex_unlock(&mutex);
 
@@ -95,6 +99,7 @@ void* thread_merger(void* arg)
   pthread_mutex_lock(&mutex2);
 
   cout << "Thread " << index2 + 1 << endl;
+  //Print statements to test indexes for each thread
   // cout << "beg1 = " << beg1 << " end1 = " << end1;
   // cout << " beg2 = " << beg2 << " end2 = " << end2 << endl;
 
