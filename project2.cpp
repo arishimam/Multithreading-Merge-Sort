@@ -98,11 +98,13 @@ void* thread_merger(void* arg)
   // cout << "beg1 = " << beg1 << " end1 = " << end1;
   // cout << " beg2 = " << beg2 << " end2 = " << end2 << endl;
 
+  cout << "Merged " << (end1 - beg1) << " and " << (end2 - beg2) << " numbers." << endl;
+
   for(int i = beg1; i < end2; i++)
   {
    cout << temp_arr[i] << " ";
   }
-  cout << endl;
+  cout << endl << endl;
 
   pthread_mutex_unlock(&mutex2);
 
@@ -112,32 +114,35 @@ void* thread_merger(void* arg)
 //Goal 1
 int main(int argc, char* argv[])
 {
-
+  // adds arguments from command line to variables and converts to int
   n = atoi(argv[1]);
   u = atoi(argv[2]);
   p = atoi(argv[3]);
 
+  cout << endl << "n = " << n << "  u = " << u << "  p = " << p << endl;
 
-  arr.reserve(n);
 
-
-  printf("n = %d , u = %d , p = %d \n", n, u, p);
-
+  //the size of the different segments we will be working with
   step = n/p;
   last_segment = n - ((p-1) * step);
 
-  cout << "step = " << step << " and last_segment = " << last_segment << endl;
-
+  //cout << "step = " << step << " and last_segment = " << last_segment << endl;
+  cout << endl;
 
   //Goal 2
   // Filling array with random nums
+  //seeds the rand function by time so we generate different numbers every run
   srand(time(0));
 
+  //reserves enough space for n numbers in arr
+  arr.reserve(n);
+  // Fills arr with n random numbers within a range of 1 - u (inclusive)
   for (int i = 0; i < n; i++)
   {
-    arr.push_back(rand() % u);
+    arr.push_back((rand() % u + 1));
   }
-
+  cout << "Original Array: " << endl << endl;
+  //prints the populated array
   for (int i = 0; i < n; i++)
   {
     cout << arr[i] << " ";
@@ -151,6 +156,7 @@ int main(int argc, char* argv[])
   pthread_t threads[p];
   pthread_mutex_init(&mutex, NULL);
 
+  cout << "Sorting Threads: " << endl << endl;
   for (int i = 0; i < p; i++)
   {
     int* a = (int*)malloc(sizeof(int));
@@ -165,16 +171,19 @@ int main(int argc, char* argv[])
     pthread_join(threads[i], NULL);
   }
 
+    cout << endl;
   //Goal 4
   //Merging
 
+  // Reserves space for n values in temp_arr
   temp_arr.reserve(n);
 
+  cout << "Merging Threads: " << endl << endl;
   while(p>1)
   {
     pthread_t threads2[p/2];
 
-    cout << "Number of threads = " << p/2 << endl;
+    cout << "Number of threads = " << p/2 << endl << endl;
 
     for (int i = 0; i < p/2; i++)
     {
@@ -189,6 +198,7 @@ int main(int argc, char* argv[])
       pthread_join(threads2[i], NULL);
     }
 
+    // if else copies merged values from temp_arr to arr
     if (p%2 == 0)
     {
       copy(temp_arr.begin(), temp_arr.begin() + n, arr.begin());
@@ -206,7 +216,7 @@ int main(int argc, char* argv[])
   pthread_mutex_destroy(&mutex);
   pthread_mutex_destroy(&mutex2);
 
-//Reduntant clear call for temp_arr?
+  //Clear temp_arr
   temp_arr.clear();
 
 
